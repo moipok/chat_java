@@ -1,14 +1,43 @@
-# Chapter III
-### Exercise 00 – Registration
+## Tech
 
-Exercise 00: Registration ||
----|---
-Turn-in directory	| ex00
-Files to turn-in |	Chat-folder
+- Java
+- PostgreSQL
 
-Before you start creating a full-scale, multi-user chat, you need to implement core functionality and build the foundational architecture of the system.
+## Installation
 
-Now you need to create two applications: socket-server and socket-client. Server shall support connecting a single client and be made as a separate Maven project. Server JAR file is launched as follows:
+Dillinger requires [Java](https://www.java.com/ru/) v8+ to run.
+
+Install bd.
+
+```sh
+brew install postgres
+psql --user postgres
+CREATE ROLE root WITH PASSWORD 'root' LOGIN SUPERUSER;
+CREATE DATABASE epamdatabase WITH OWNER root;
+GRANT ALL PRIVILEGES ON DATABASE chat TO root;
+```
+and exec in epamdatabase
+
+src/main/resources/schema.sql
+
+Or change db properties in src/main/resources/db.properties 
+
+## Development
+
+For compile project
+
+```sh
+cd chat/
+mvn package
+java -jar target/akuginov_epam.jar 
+```
+
+
+## Magic
+
+# Chapter I
+
+Server:
 ```
 $ java -jar target/socket-server.jar --port=8081
 ```
@@ -18,7 +47,7 @@ Client is also a separate project:
 $ java -jar target/socket-client.jar --server-port=8081
 ```
 
-In this task, you need to implement the registration functionality. Example of the client operation:
+
 ```
 Hello from Server!
 > signUp
@@ -29,18 +58,7 @@ Enter password:
 Successful!
 ```
 
-Connection must be closed after Successful! message appears.
 
-To ensure secure storage of passwords, use a hashing mechanism with PasswordEncoder and BCryptPasswordEncoder (see Spring Security components). Bin for this component shall be described in a class of SocketsApplicationConfig configuration and used in UsersService.
-
-Key client/server interaction logic and the use of UsersService via Spring Context shall be implemented in Server class.
-
-**Additional requirements**:
-- Use a single DataSource—HikariCP
-- Repository operation shall be implemented via JdbcTemplate
-- Services, repositories, utility classes shall be context bins.
-
-Server application architecture (client application is at the developer's discretion):
 
 - Char
     - SocketServer
@@ -67,13 +85,12 @@ Server application architecture (client application is at the developer's discre
                     - db.properties
         - pom.xml
 
-# Chapter IV
-### Exercise 01 – Messaging
+# Chapter II
+### Messaging
 
-Exercise 01: Messaging ||
+Messaging ||
 ---|---
-Turn-in directory |	ex01
-Files to turn-in |	Chat-folder
+Files to turn-in |	chat
 
 Once you have implemented the application backbone, you should provide multi-user message exchange.
 
@@ -102,7 +119,4 @@ Each message shall be saved in the database and contain the following informatio
 - Sender
 - Message text
 - Sending time
-
-**Note**:
-- For comprehensive testing, several jar files of the client application shall be run.
 
